@@ -1,0 +1,89 @@
+<style>
+    table, tr, td, th{
+        border:1px solid black;
+    }
+
+    table{
+        width:100%;
+    }
+</style>
+
+<link rel="search icon" href="#">
+
+
+<h1>Admin Page</h1>
+
+<h1>MEMBERS:</h1>
+<table>
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Username:</th>
+            <th>Password</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% members.forEach(member=>{ %>
+        <tr>
+          <td><%= member.username%></td>  
+          <td><span data-id="<%=member._id%>" data-task="member" class="deleteBadge">&times;</span></td> 
+        </tr>
+
+        <% }) %>
+    </tbody>
+</table>
+
+
+
+
+<h1>TOPICS</h1>
+<table>
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Topic:</th>
+            <th>Author:</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% topics.forEach(topic=>{ %>
+        <tr>
+          <td><%=topic.topic%></td>  
+          <td><%=topic.author%></td>  
+          <td><span data-id="<%=topic._id%>" data-task="topic" class="deleteBadge">&times;</span></td> 
+
+        </tr>
+
+        <% }) %>
+    </tbody>
+</table>
+
+
+
+<script>
+
+    var deleteBadges = document.querySelectorAll(".deleteBadge")
+
+    console.log(deleteBadges)
+
+    deleteBadges.forEach(badge=>{
+       
+        badge.onclick=(e)=>{
+
+        let id= e.target.getAttribute("data-id");
+        console.log("ID: " + id)
+
+            if(e.target.getAttribute("data-task") === "member"){
+                    fetch(`/delete/member/${id}`,{
+                        method:"DELETE"
+                    })
+            }
+            else{
+                fetch(`/delete/topic/${id}`,{
+                        method:"DELETE"
+                    })
+            }
+            location.reload()
+        }
+    })
+</script>
