@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 
-const AddTopic = ({display,user}) => {
+const AddTopic = ({display,user,newFetch,setNewFetch}) => {
     const [topic,setTopic] = useState("")
 
 
@@ -16,8 +16,10 @@ const AddTopic = ({display,user}) => {
             })
             .then(res=>res.json())
             .then(res=>{
-                console.log(res)
+                console.log(res);
+                // window.location.reload()
             })
+            setNewFetch(!newFetch)
             
     }
 

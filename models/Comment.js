@@ -8,12 +8,20 @@ const commentschema=new Schema({
         type:String,
         required:true
     },
+    topicId:{
+        type:String,
+        required:true
+    },
     created_at:{
         type:Date,
         default:new Date()
     },
     author:{
         type:String,
+    },
+    review:{
+        type:Array,
+        default:[]
     }
 })
 

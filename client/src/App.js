@@ -1,6 +1,6 @@
 import React from "react"
 import {BrowserRouter as Router, Route, Redirect, Switch} from "react-router-dom"
-import {Login, Messageboard,Error404} from "./pages"
+import {Login, Messageboard,Error404, Topic} from "./pages"
 import {FaComment} from "react-icons/fa"
 
 import "./App.css"
@@ -23,6 +23,7 @@ const App = () =>{
                 {window.location.pathname === "/" ? <Redirect to="/login"/> : null}
                 <Route exact path="/login" render={(props)=> <Login {...props}/>}/>
                 <Route exact path="/messageboard" component={Messageboard}/>
+                <Route exact path="/topic/:user/:thread" component={Topic}/>
                 <Route path="/:url" component={Error404}/>
                 </Switch>
             </Router>

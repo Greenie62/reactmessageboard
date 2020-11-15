@@ -122,15 +122,158 @@
     height:50vh;
     border:1px solid black;
     left:2%;
+    border-radius:1%;
+    overflow: auto;
 }
 
 .topicDiv{
     width:100%;
-    height:20%;
+    height:25%;
+    display:flex;
+}
+
+.avatarColumn{
+    width:10%;
+    height:100%;
+    display:flex;
+    align-items:center;
+    justify-content: center;
+}
+
+.topicContentColumn{
+    text-align:center;
+}
+
+.topiclink{
+    text-decoration:none;
+    color:black;
+}
+
+.topicContentRow{
+    display:flex;
+    align-items:center;
+    justify-content: space-evenly;
+}
+
+.topich2{
+    left:5%;
+}
+
+.topich4{
+    left:15%;
+}
+
+.dateh4{
+    left:35%;
+}
+
+
+
+.commentBox{
+    width:80%;
+    height:75px;
+    left:10%;
+    border:2px solid black;
+    box-shadow:1px 2px black;
+    font-size:15px;
+    transition:1s ease;
+}
+
+.hide-commentBox{
+    width:0;
+    height:0;
+    overflow:hidden;
+    left:45%;
+    transition:1s ease;
+    opacity:0;
+}
+
+.commentBtn{
+    top:-15px;
+    left:-35px;
+}
+
+.hide-commentBtn{
+    opacity:0;
+}
+
+.commentContainer{
+    width:90%;
+    height:50vh;
+    border:1px solid black;
+    overflow:auto;
+}
+
+.commentRow{
+    display:flex;
+    align-items:center;
+    justify-content: space-evenly;
+    border:1px solid black;
+
+}
+
+.commentDiv{
+    width:100%;
+    height:60px;
+    display:flex;
+    align-items:center;
+    justify-content: space-evenly;
+}
+
+.likeBar, .starRow{
+    width:25%;
+    height:20px;
+    /* border:1px solid black; */
+    display:flex;
+    align-items:center;
+    justify-content: space-evenly;
+}
+
+.starWrapper{
+    border:1px solid black;
+    height:100%;
+    width:100%;
+}
+
+.starRow{
+    width:100%;
+    height:100%;
+}
+
+.submitReviewBtn{
+    background:rgb(0,0,255,0.8);
+    border-radius:50%;
+    color:white;
+}
+
+.like{
+    border-radius:50
+}
+
+.topicMenuRow{
+    width:100%;
+    height:25%;
+    /* border:1px solid black; */
+}
+
+.commentContainer{
+    height:50vh;
+    width:90%;
+    left:5%;
+    /* border:1px solid black; */
 }
 
 
 .errorDiv{
     text-align:center;
     background:yellow;
+}
+
+
+
+@media screen and (max-width:350px){
+    .header{
+        height:14vh;
+    
+    }
 }

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import {UserPanel, TopicDiv, AddTopic} from "../components"
+import {UserPanel, TopicDiv, AddTopic, CommentDiv} from "../components"
 import { useFetchTopics } from "../useFetchTopics"
 
 
@@ -9,12 +9,12 @@ const Messageboard = () => {
 
     const [user,setUser] = useState("")
     const [display,setDisplay] = useState(false)
-    const [topic, setTopic] = useState("pizza")
-    const {loading,error,topics} = useFetchTopics(topic)
+    const [newFetch,setNewFetch] = useState(true)
+    const {loading,error,topics} = useFetchTopics(newFetch)
 
 
     useEffect(()=>{
-
+        console.log("Token: " + localStorage.token)
         if(localStorage.token === undefined){
             console.log("unauthorized")
             window.location.pathname="/login"
@@ -29,7 +29,7 @@ const Messageboard = () => {
             .then(res=>res.json())
             .then(res=>{
                 // console.log(res)
-                setUser(res.user.username)
+                setUser(res.user)
             })
         }
 
@@ -41,13 +41,18 @@ const Messageboard = () => {
     return (
         <div className="messageboardContainer">
             <UserPanel display={display} setDisplay={setDisplay} user={user}/>
-            <AddTopic display={display} user={user}/>
+            <AddTopic display={display} 
+                      user={user}
+                      newFetch={newFetch}
+                      setNewFetch={setNewFetch}/>
+            
             <div className='messageboardWrapper'>
             {loading && "LOADING..."}
             {error && "ERROR..."}
             {topics && topics.map((t,idx)=>(
                 <TopicDiv key={idx}
-                         topic={t}/>
+                         topic={t}
+                          user={user}/>
     
             ))}
             </div>

@@ -43,7 +43,7 @@ const reducer = (state,action) =>{
 }
 
 
-export const useFetchTopics = (topic)=>{
+export const useFetchTopics = (newFetch)=>{
 
     const {LOADING, ERROR, DATA} = ACTIONS;
     const [state,dispatch] = useReducer(reducer,initialState)
@@ -59,13 +59,12 @@ export const useFetchTopics = (topic)=>{
             dispatch({
                 type:DATA,
                 payload:res
-                // payload:[{topic:'grrr',author:"wtf"}]
             })
         })
             
 
         
-    },[topic])
+    },[newFetch])
 
     // console.log(state)
 

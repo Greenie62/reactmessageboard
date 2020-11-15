@@ -9,6 +9,12 @@ const createAvatar = require('./utils/avatars')
 
 router.post('/register',async(req,res)=>{
     console.log(req.body);
+    let user = await db.Topic.find({username:req.body.username})
+    console.log(user)
+
+    if(user){
+        console.log("WTF YOU re-registering?")
+    }
     let hash = await hashPassword(req.body.password);
     req.body.password = hash;
     db.Member.create(req.body)
@@ -26,8 +32,20 @@ router.post('/login',async(req,res)=>{
 
     let dbmember = await db.Member.findOne({username:req.body.username})
     console.log(dbmember)
+    if(dbmember === null){
+        res.json({member:null})
+    }
 
-    res.json({msg:"loginInfo received!"})
+    let result = await confirmPassword(dbmember.password,req.body.password)
+     if(!result){
+        res.json({member:false})
+    }
+    else{
+        let token = await createToken(dbmember.username);
+        res.json({msg:"Data received!",token})
+    }
+
+
 })
 
 
@@ -47,11 +65,6 @@ router.post('/addtopic',(req,res)=>{
     res.json({msg:"newThread received!"})
 })
 
-router.post('/addcomment',(req,res)=>{
-    console.log(req.body);
-
-    res.json({msg:"newComment received!"})
-})
 
 
 
@@ -63,6 +76,54 @@ router.get("/topics",(req,res)=>{
     })
 })
 
+
+router.post("/addcomment",async(req,res)=>{
+    console.log(req.body);
+    let topic= await db.Topic.find({slug:req.body.slug})
+    console.log(topic)
+    let topicId = topic._id
+    if(topic.length){
+    topicId = topic[0]._id
+    }
+    console.log("TopicID: " + topicId)
+    req.body.topicId = topicId
+    await db.Comment.create(req.body)
+    res.json({msg:"Comment has been added!"})
+})
+
+
+router.get('/comments/:slug',async (req,res)=>{
+
+    console.log(req.params.slug)
+    let topic = await db.Topic.find({slug:req.params.slug});
+    let topicId = topic._id
+    if(topic.length){
+    topicId = topic[0]._id
+    }
+    console.log("TopicID: " + topicId)
+ 
+    let comments = await db.Comment.find({topicId})
+    console.log(comments)
+    let commentsWithRatings=[];
+    comments.forEach(c=>{
+        let newCommentObj = Object.assign(
+            {...c._doc},
+            {rating:'no rating!'}
+        );
+        if(c.review.length){
+        let total=c.review.reduce((a,b)=>parseInt(a)+parseInt(b));
+        newCommentObj.rating = (total/c.review.length).toFixed(2)
+            
+        }
+   
+        commentsWithRatings.push(newCommentObj)
+
+    })
+    res.json({comments:commentsWithRatings})
+})
+
+
+
 router.get('/signtoken',async(req,res)=>{
     let token = req.headers.authorization;
 
@@ -70,7 +131,7 @@ router.get('/signtoken',async(req,res)=>{
     token= token.split(" ")[1]
     // console.log(req.body);
     let user = await signToken(token)
-
+    // console.log("USER: " + user)
     res.json({data:'/signtoken fired',user})
 })
 
@@ -111,6 +172,19 @@ else if(req.params.collection === "topics"){
     }
     
 })
+
+
+router.get("/addreview/:id/:stars",(req,res)=>{
+    console.log(req.params)
+
+    db.Comment.findOneAndUpdate({_id:req.params.id},{$push:{review:req.params.stars}})
+    .then(dbcomment=>{
+        console.log('Comment review updated!');
+        res.json({msg:"Update a success! \n Now render that shit!"})
+    })
+})
+
+
 
 
 
