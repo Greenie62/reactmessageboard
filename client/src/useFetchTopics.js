@@ -30,7 +30,7 @@ const reducer = (state,action) =>{
             return {
                 ...state,
                 loading:false,
-                topics:action.payload
+                topics:action.payload || []
             }
 
         case ERROR:
