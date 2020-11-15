@@ -132,7 +132,7 @@ router.get('/signtoken',async(req,res)=>{
     // console.log(req.body);
     let user = await signToken(token)
     // console.log("USER: " + user)
-    res.json({data:'/signtoken fired',user})
+    res.json({data:'/signtoken fired',user:user.username})
 })
 
 

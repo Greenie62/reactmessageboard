@@ -8,7 +8,7 @@ const Login = (props) => {
 
 
     const registerUser=()=>{
-        fetch('http://localhost:3005/register',{
+        fetch('/register',{
             method:"POST",
             headers:{
                 'Content-Type':"application/json"
@@ -25,7 +25,7 @@ const Login = (props) => {
 
     const loginUser=()=>{
         console.log('loginUser fired!')
-        fetch('http://localhost:3005/login',{
+        fetch('/login',{
             method:"POST",
             headers:{
                 'Content-Type':"application/json"
